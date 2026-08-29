@@ -1,11 +1,22 @@
 # prasadagenticai
 
-Initial repository for the Scimago + OpenAlex agent to fetch articles from journals by Scimago quartile.
+This branch adds a small Python CLI "agent" that uses a Scimago CSV mapping (ISSN → quartile)
+and OpenAlex to fetch article metadata (title, DOI, authors, abstract, concepts) for journals in
+a selected Scimago quartile.
 
-This repository will hold a small Python CLI that:
+Files added:
+- requirements.txt
+- src/prasad_agenticai/ (package)
+  - cli.py (Typer CLI)
+  - openalex.py (OpenAlex helpers)
+  - scimago_map.py (CSV loader)
+- scripts/run_agent.sh (example)
+- scimago_mapping_example.csv (small example mapping)
 
-- Loads a Scimago CSV mapping file (ISSN -> quartile).
-- Queries OpenAlex for works published in venues that match a selected quartile.
-- Outputs article metadata including title, DOI, authors, abstract, and concepts (as keywords) to JSON or CSV.
+Usage example (after installing requirements):
 
-See branch `feature/scimago-openalex-agent` for the implementation.
+python -m prasad_agenticai.cli fetch-articles --quartile Q1 --scimago-file scimago_mapping_example.csv --query "neuroscience" --limit 50 --out results.json --fmt json
+
+Notes:
+- Provide an authoritative Scimago CSV mapping for accurate quartiles. The example CSV is only illustrative.
+- OpenAlex is used for works/abstracts and does not require an API key. Set a polite email in the User-Agent string in openalex.py.
